@@ -1,6 +1,9 @@
 from enum import Enum
+from random import *
 
-#For characters.
+#For characters. Includes dice stuff too.
+
+# Valid symbols to add to a die.
 class Symbol(Enum):
     # BASIC TYPES
     GUN=1;#Ranged.
@@ -16,20 +19,26 @@ class Symbol(Enum):
     SICK=10;#When rolled, randomly moves to another face of the die.
 
 class Dice():
-    sides={}
-    modsides={}
-    def __init__(self):
+    sides=[]
+    modsides=[]
+    def __init__(self,*newsides):
         """Each character has a die associated with it. This die represents
         the character's abilities and health. Faces of the die may be "covered"
         when affected by damage."""
+        for k in newsides:
+            if isinstance(k,Symbol):
+                self.sides.append(k);
+            else:
+                print(type(k));
+                raise ValueError("Tried to add a non-symbol to a die: "+str(k)+" of type "+str(type(k)));
 
     def roll(self):
         """Returns a side from the die. No need to check side count. Also
         ensures that a modified side is returned, if any."""
-        result = random(len(self.sides));
-        if self.modsides[result] != None:
+        result = randrange(len(self.sides));
+        try:
             return self.modsides[result];
-        else:
+        except IndexError:
             return self.sides[result];
 
     def modify(self,replace):
@@ -43,4 +52,6 @@ class Dice():
                 self.modsides[result] = replace;
                 done = True;
         
-
+if __name__ == "__main__": # Time to test dice.
+    die = Dice(Symbol.GUN,Symbol.MELEE,Symbol.SCI,Symbol.CULT,Symbol.MOVE,Symbol.DEF)
+    print(die.roll(),"Roll");
