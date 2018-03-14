@@ -26,8 +26,21 @@ class Dice():
     def roll(self):
         """Returns a side from the die. No need to check side count. Also
         ensures that a modified side is returned, if any."""
-        result = random(len(sides));
-        if modsides[result] != None:
-            return modsides[result];
+        result = random(len(self.sides));
+        if self.modsides[result] != None:
+            return self.modsides[result];
         else:
-            return sides[result];
+            return self.sides[result];
+
+    def modify(self,replace):
+        """Replaces a random side with a modifier 'replace'. Only picks sides that aren't already modified."""
+        done=False;
+        if not replace is Symbol:
+            raise ValueError("Tried to replace a die face with a non-symbol value!");
+        while not done:
+            result = random(len(self.sides));
+            if self.modsides[result] == None:
+                self.modsides[result] = replace;
+                done = True;
+        
+
