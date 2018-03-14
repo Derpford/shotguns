@@ -1,7 +1,8 @@
-include "equip.py"
+import equip.py
 
-def update()
+def update():
     # Do things here.
+    return;
 end
 
 
