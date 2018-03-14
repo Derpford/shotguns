@@ -1,6 +1,6 @@
 include "equip.py"
 
-def update()
+def update():
     # Do things here.
 end
 
